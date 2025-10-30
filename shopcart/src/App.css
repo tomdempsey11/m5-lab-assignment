@@ -1,0 +1,94 @@
+/* Overall App layout */
+.app-shell {
+  background: #fff;
+  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+/* Blue nav bar */
+.topbar {
+  background: #00c4ff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px;
+}
+
+.topbar__title {
+  margin: 0;
+  font-weight: 600;
+  color: #000;
+}
+
+.topbar__cart {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #000;
+  font-size: 0.9rem;
+}
+
+/* Each product row */
+.product-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 16px;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+/* Left side: image on top, title under it */
+.product-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.product-row__img {
+  width: 110px;
+  height: auto;
+  object-fit: contain;
+}
+
+.product-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+/* Right side: quantity controls, pulled in a bit */
+.product-row__controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-right: 40px; /* pulls it away from far right like the demo */
+}
+
+.qty-box {
+  border: 1px solid #ccc;
+  width: 35px;
+  height: 35px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+  background: #fff;
+}
+
+.qty-label {
+  font-size: 0.75rem;
+  color: #444;
+}
+
+/* Responsive: stack controls under image on small screens */
+@media (max-width: 600px) {
+  .product-row {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .product-row__controls {
+    margin-right: 0;
+  }
+}
