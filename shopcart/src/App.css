@@ -17,25 +17,29 @@
 .topbar__title {
   margin: 0;
   font-weight: 600;
-  color: #000;
+  color: #fff;
+  text-decoration: none;
 }
 
 .topbar__cart {
   display: flex;
   align-items: center;
   gap: 6px;
-  color: #000;
+  color: #fff;
   font-size: 0.9rem;
+  text-decoration: none;
 }
 
 /* Each product row */
 .product-row {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  align-items: center;   /* center everything vertically */
+  gap: 2.5rem;
   padding: 18px 16px;
   border-bottom: 1px solid #e5e5e5;
 }
+
+
 
 /* Left side: image on top, title under it */
 .product-left {
@@ -43,13 +47,17 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 8px;
+  width: 180px;   /* ← make all left columns the same width */
 }
+
 
 .product-row__img {
   width: 110px;
-  height: auto;
+  height: 110px;        /* ← add this */
   object-fit: contain;
+  cursor: pointer;
 }
+
 
 .product-title {
   margin: 0;
@@ -57,31 +65,102 @@
   font-weight: 500;
 }
 
-/* Right side: quantity controls, pulled in a bit */
+/* Right side: quantity controls */
 .product-row__controls {
   display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-right: 40px; /* pulls it away from far right like the demo */
+  align-items: flex-end; /* push buttons slightly lower than center */
+  gap: 10px;
 }
 
+
+
+
+/* =====================
+   Qty buttons (gray outer + FA stacked icons)
+   ===================== */
+
+/* group + and - buttons side by side */
+.qty-btn-group {
+  display: inline-flex;
+  gap: 8px;
+}
+
+/* gray rectangular button that holds the FA stack */
+.qty-btn {
+  width: 46px;
+  height: 32px;
+  background: #6b6b6b;
+  border: none;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.qty-btn:hover {
+  background: #555;
+}
+
+/* control the stacked icon size inside button */
+.qty-btn .fa-stack {
+  font-size: 0.6rem; /* adjust to taste */
+  line-height: 1;
+  position: absolute;
+}
+
+/* bottom shape in the stack (we make the square look like a circle) */
+.gray-square {
+  color: #fff;        /* white background */
+  border-radius: 50%; /* visually round the square */
+}
+
+/* top icon (+ or -) */
+.inner-symbol {
+  color: #000;        /* black symbol */
+}
+
+/* quantity label above the number box */
+.qty-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;  /* push the quantity box to the bottom */
+  gap: 2px;                   /* small gap between label and box */
+}
+
+
+.qty-label {
+  font-size: 0.85rem;
+  color: #444;
+  font-weight: 500;
+  margin-bottom: 4px; /* space between label and box */
+}
+
+/* quantity box beside buttons */
 .qty-box {
   border: 1px solid #ccc;
-  width: 35px;
-  height: 35px;
+  width: 40px;
+  height: 40px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 3px;
+  border-radius: 4px;
   background: #fff;
+  font-weight: 500;
+  color: #333;
+  margin-left: 6px;
 }
 
 .qty-label {
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   color: #444;
+  margin-left: 8px;
+  font-weight: 500;
 }
 
-/* Responsive: stack controls under image on small screens */
+/* Responsive */
 @media (max-width: 600px) {
   .product-row {
     flex-wrap: wrap;
@@ -91,4 +170,51 @@
   .product-row__controls {
     margin-right: 0;
   }
+}
+
+/* =====================
+   Modal / lightbox tweaks
+   ===================== */
+.modal-product {
+  text-align: center;
+}
+
+.modal-product__img {
+  width: 100%;
+  max-width: 350px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  border-radius: 8px;
+}
+
+.modal-product__ratings {
+  margin-top: 0.75rem;
+  font-weight: 500;
+  color: #444;
+}
+
+/* =====================
+   Cart screen
+   ===================== */
+.cart-screen {
+  margin-top: 1.25rem;
+}
+
+.cart-title {
+  margin-bottom: 1rem;
+}
+
+/* Cart Page styling */
+.cart-qty {
+  font-size: 1rem;
+  color: #222;
+  margin: 0;
+}
+
+.product-row__details {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-left: 1rem;
 }

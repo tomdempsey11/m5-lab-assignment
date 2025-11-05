@@ -1,39 +1,19 @@
 import React, { Component } from "react";
-import { Container, Button } from "reactstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
+
+// these will be separate files we create:
+import productsData from "./products";
+import Navbar from "./navbar";
+import DisplayProducts from "./displayProducts";
+import Cart from "./cart";
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      products: [
-        {
-          id: 1,
-          image: process.env.PUBLIC_URL + "/products/cologne.jpg",
-          desc: "Unisex Cologne",
-          value: 0,
-        },
-        {
-          id: 2,
-          image: process.env.PUBLIC_URL + "/products/iwatch.jpg",
-          desc: "Apple iWatch",
-          value: 0,
-        },
-        {
-          id: 3,
-          image: process.env.PUBLIC_URL + "/products/mug.jpg",
-          desc: "Unique Mug",
-          value: 0,
-        },
-        {
-          id: 4,
-          image: process.env.PUBLIC_URL + "/products/wallet.jpg",
-          desc: "Mens Wallet",
-          value: 0,
-        },
-      ],
+      // load the products from separate file
+      products: productsData,
     };
   }
 
@@ -42,6 +22,7 @@ class App extends Component {
     return this.state.products.reduce((total, p) => total + p.value, 0);
   };
 
+  // increment handler
   handleIncrement = (product) => {
     const products = this.state.products.map((p) =>
       p.id === product.id ? { ...p, value: p.value + 1 } : p
@@ -49,6 +30,7 @@ class App extends Component {
     this.setState({ products });
   };
 
+  // decrement handler
   handleDecrement = (product) => {
     const products = this.state.products.map((p) =>
       p.id === product.id ? { ...p, value: Math.max(p.value - 1, 0) } : p
@@ -60,56 +42,37 @@ class App extends Component {
     const totalQty = this.getTotalQuantity();
 
     return (
-      <div>
-        {/* TOP BAR */}
-        <nav className="topbar">
-          <h4 className="topbar__title">Shop to React</h4>
-          <div className="topbar__cart">
-            <FontAwesomeIcon icon={faShoppingCart} />
-            <span>
-              {totalQty} {totalQty === 1 ? "item" : "items"}
-            </span>
-          </div>
-        </nav>
+      <Router>
+        {/* navbar always shows */}
+        <Navbar totalQty={totalQty} />
 
-        {/* PRODUCT LIST */}
-        <Container className="p-0">
-          {this.state.products.map((product) => (
-            <div key={product.id} className="product-row">
-              {/* left: name ABOVE image */}
-              <div className="product-left">
-                <h5 className="product-title">{product.desc}</h5>
-                <img
-                  src={product.image}
-                  alt={product.desc}
-                  className="product-row__img"
-                />
-              </div>
+        {/* main routes */}
+        <Routes>
+          {/* home = show products */}
+          <Route
+            path="/"
+            element={
+              <DisplayProducts
+                products={this.state.products}
+                onIncrement={this.handleIncrement}
+                onDecrement={this.handleDecrement}
+              />
+            }
+          />
 
-
-              {/* right: quantity controls */}
-              <div className="product-row__controls">
-                <Button
-                  color="primary"
-                  size="sm"
-                  onClick={() => this.handleIncrement(product)}
-                >
-                  +
-                </Button>
-                <span className="qty-box">{product.value}</span>
-                <Button
-                  color="danger"
-                  size="sm"
-                  onClick={() => this.handleDecrement(product)}
-                >
-                  –
-                </Button>
-                <span className="qty-label">quantity</span>
-              </div>
-            </div>
-          ))}
-        </Container>
-      </div>
+          {/* cart page */}
+          <Route
+            path="/cart"
+            element={
+              <Cart
+                products={this.state.products.filter((p) => p.value > 0)}
+                onIncrement={this.handleIncrement}
+                onDecrement={this.handleDecrement}
+              />
+            }
+          />
+        </Routes>
+      </Router>
     );
   }
 }
