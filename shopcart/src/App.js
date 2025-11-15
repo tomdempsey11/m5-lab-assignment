@@ -7,6 +7,8 @@ import productsData from "./products";
 import Navbar from "./navbar";
 import DisplayProducts from "./displayProducts";
 import Cart from "./cart";
+import SignIn from "./SignIn";
+import Checkout from "./Checkout";
 
 class App extends Component {
   constructor(props) {
@@ -65,9 +67,22 @@ class App extends Component {
             path="/cart"
             element={
               <Cart
-                products={this.state.products.filter((p) => p.value > 0)}
-                onIncrement={this.handleIncrement}
-                onDecrement={this.handleDecrement}
+                products={this.state.products}
+                totalQty={totalQty}
+              />
+            }
+          />
+
+          {/* sign in page */}
+          <Route path="/signin" element={<SignIn />} />
+
+          {/* check out page */}
+          <Route
+            path="/checkout"
+            element={
+              <Checkout
+                products={this.state.products}
+                totalQty={totalQty}
               />
             }
           />
