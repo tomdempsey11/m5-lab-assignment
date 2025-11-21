@@ -6,10 +6,14 @@ import "./App.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faMinus, faCircle } from "@fortawesome/free-solid-svg-icons";
 
-const DisplayProducts = ({ products, onIncrement, onDecrement }) => {
-  // modal show/hide
+const DisplayProducts = ({
+  products,
+  onIncrement,
+  onDecrement,
+  sortOption,
+  onSortChange,
+}) => {
   const [show, setShow] = useState(false);
-  // product currently selected
   const [activeProduct, setActiveProduct] = useState(null);
 
   const handleClose = () => setShow(false);
@@ -20,11 +24,28 @@ const DisplayProducts = ({ products, onIncrement, onDecrement }) => {
 
   return (
     <Container className="p-0">
+      {/* 🔽 Sort dropdown */}
+      <div className="sort-bar">
+        <span className="sort-label">Sort Price By:</span>
+        <select
+          className="sort-dropdown"        // 👈 added className
+          value={sortOption}
+          onChange={(e) => onSortChange(e.target.value)}
+        >
+          <option value="Normal">Normal</option>
+          <option value="Lowest">Lowest</option>
+          <option value="Highest">Highest</option>
+        </select>
+      </div>
+
       {products.map((product) => (
         <div key={product.id} className="product-row">
           {/* left side: title + image */}
           <div className="product-left">
-            <h5 className="product-title">{product.desc}</h5>
+            <h5 className="product-title">
+              {product.desc}{" "}
+              <span className="product-price">${product.price}</span>
+            </h5>
             <img
               src={product.image}
               alt={product.desc}
@@ -37,19 +58,16 @@ const DisplayProducts = ({ products, onIncrement, onDecrement }) => {
           {/* right side: quantity controls */}
           <div className="product-row__controls">
             <div className="qty-btn-group">
-              {/* increment button */}
               <button
                 type="button"
                 className="qty-btn"
                 onClick={() => onIncrement(product)}
               >
                 <span className="fa-stack">
-                  {/* bottom shape */}
                   <FontAwesomeIcon
                     icon={faCircle}
                     className="fa-stack-2x gray-square"
                   />
-                  {/* top symbol */}
                   <FontAwesomeIcon
                     icon={faPlus}
                     className="fa-stack-1x inner-symbol"
@@ -57,7 +75,6 @@ const DisplayProducts = ({ products, onIncrement, onDecrement }) => {
                 </span>
               </button>
 
-              {/* decrement button */}
               <button
                 type="button"
                 className="qty-btn"
@@ -76,11 +93,10 @@ const DisplayProducts = ({ products, onIncrement, onDecrement }) => {
               </button>
             </div>
 
-                <div className="qty-display">
-                <span className="qty-label">Quantity</span>
-                <span className="qty-box">{product.value}</span>
-                </div>
-
+            <div className="qty-display">
+              <span className="qty-label">Quantity</span>
+              <span className="qty-box">{product.value}</span>
+            </div>
           </div>
         </div>
       ))}

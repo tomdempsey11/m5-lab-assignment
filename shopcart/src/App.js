@@ -1,8 +1,8 @@
+// src/App.js
 import React, { Component } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 
-// these will be separate files we create:
 import productsData from "./products";
 import Navbar from "./navbar";
 import DisplayProducts from "./displayProducts";
@@ -14,8 +14,8 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // load the products from separate file
       products: productsData,
+      sortOption: "Normal", // NEW
     };
   }
 
@@ -40,15 +40,31 @@ class App extends Component {
     this.setState({ products });
   };
 
+  // 🔽 sort handler
+  handleSortChange = (option) => {
+    const products = [...this.state.products];
+
+    if (option === "Normal") {
+      // default by id ascending
+      products.sort((a, b) => a.id - b.id);
+    } else if (option === "Lowest") {
+      // price low → high
+      products.sort((a, b) => a.price - b.price);
+    } else if (option === "Highest") {
+      // price high → low
+      products.sort((a, b) => b.price - a.price);
+    }
+
+    this.setState({ products, sortOption: option });
+  };
+
   render() {
     const totalQty = this.getTotalQuantity();
 
     return (
       <Router>
-        {/* navbar always shows */}
         <Navbar totalQty={totalQty} />
 
-        {/* main routes */}
         <Routes>
           {/* home = show products */}
           <Route
@@ -58,6 +74,8 @@ class App extends Component {
                 products={this.state.products}
                 onIncrement={this.handleIncrement}
                 onDecrement={this.handleDecrement}
+                sortOption={this.state.sortOption}          // NEW
+                onSortChange={this.handleSortChange}        // NEW
               />
             }
           />
@@ -65,12 +83,7 @@ class App extends Component {
           {/* cart page */}
           <Route
             path="/cart"
-            element={
-              <Cart
-                products={this.state.products}
-                totalQty={totalQty}
-              />
-            }
+            element={<Cart products={this.state.products} totalQty={totalQty} />}
           />
 
           {/* sign in page */}
@@ -79,12 +92,7 @@ class App extends Component {
           {/* check out page */}
           <Route
             path="/checkout"
-            element={
-              <Checkout
-                products={this.state.products}
-                totalQty={totalQty}
-              />
-            }
+            element={<Checkout products={this.state.products} totalQty={totalQty} />}
           />
         </Routes>
       </Router>

@@ -218,3 +218,44 @@
   justify-content: flex-start;
   margin-left: 1rem;
 }
+
+
+/* SORT BAR + PRICING */
+
+.sort-bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 10px;
+  font-size: 14px;
+}
+
+.sort-label {
+  margin-right: 8px;
+  font-weight: 500;
+  color: #555;
+}
+
+.sort-dropdown {
+  padding: 5px 8px;
+  font-size: 14px;
+  border-radius: 4px;
+  border: 1px solid #aaa;
+  background-color: #fff;
+  outline: none;
+  cursor: pointer;
+}
+
+/* PRODUCT PRICE RED */
+.product-price {
+  color: #e72b2b;  /* red price */
+  font-weight: 600;
+  margin-left: 5px;
+  font-size: 14px;
+}
+
+.product-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
